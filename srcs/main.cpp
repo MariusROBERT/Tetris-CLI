@@ -14,6 +14,7 @@ int main()
 {
 	auto screen = ScreenInteractive::TerminalOutput();
 
+	size_t time = 0;
 	Event lastEvent;
 
 	Game game = Game();
@@ -33,6 +34,12 @@ int main()
 							 game.turnRight();
 						 else if (lastEvent == Event::Character('q'))
 							 game.turnLeft();
+
+						 if (time > 20)
+						 {
+							 game.moveDown();
+							 time = 0;
+						 }
 
 						 lastEvent = Event::Custom;
 
@@ -102,7 +109,18 @@ int main()
 								return false;
 							});
 
-	screen.Loop(component);
-}
+	std::atomic<bool> refresh = true;
+	std::thread refresh_ui([&] {
+		while (refresh) {
+			using namespace std::chrono_literals;
+			std::this_thread::sleep_for(0.05s);
+			screen.Post([&] {time++;});
+			screen.Post(Event::Custom);
+		}
+	});
 
-/**/
+	screen.Loop(component);
+	refresh = false;
+	refresh_ui.join();
+	return EXIT_SUCCESS;
+}
