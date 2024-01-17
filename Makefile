@@ -21,7 +21,7 @@ ERASE		=	\e[2K\r
 
 DIR_INCS	=	srcs/header
 SRC_DIR		=	srcs
-SRC_FILES	=	main.cpp
+SRC_FILES	=	main.cpp Game.cpp
 LDFLAGS		=	-Lsrcs/lib -lftxui-screen -lftxui-dom -lftxui-component
 FTXUI_MAKE	=	ftXUI-5.0.0/build/Makefile
 

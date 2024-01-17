@@ -7,74 +7,40 @@
 #include "ftxui/dom/elements.hpp"  // for operator|, text, Element, hbox, separator, size, vbox, border, frame, vscroll_indicator, HEIGHT, LESS_THAN
 #include "ftxui/screen/color.hpp"  // for Color, Color::Default, Color::GrayDark, Color::White
 #include "ftxui/component/event.hpp"           // for Event
+#include "Game.hpp"
 
 using namespace ftxui;
-
-std::string EventsHandler(const Event &event)
-{
-	std::string out;
-
-	if (event.is_character())
-	{
-		if (event.character() == " ")
-			out += "Space";
-		else
-			out += event.character();
-	}
-	else if (event == Event::ArrowLeft)
-		out += "Left";
-	else if (event == Event::ArrowRight)
-		out += "Right";
-	else if (event == Event::ArrowDown)
-		out += "Down";
-	return out;
-}
 
 int main()
 {
 	auto screen = ScreenInteractive::TerminalOutput();
 
-	std::vector<Event> keys;
-	std::vector<std::vector<char>> map;
+	Event lastEvent;
 
-	for (int i = 0; i < 20; i++)
-	{
-		std::vector<char> row;
-		row.reserve(10);
-		for (int j = 0; j < 10; ++j)
-			row.push_back(0);
-		map.push_back(row);
-	}
-
-	map[2][3] = 1;
-	map[2][4] = 2;
-	map[2][5] = 3;
-	map[2][6] = 4;
-	map[5][8] = -4;
+	Game game = Game();
 
 	auto component =
 			Renderer([&]
 					 {
-//						 Elements children;
-						 for (size_t i = std::max(0, (int) keys.size() - 20); i < keys.size(); ++i)
+						 if (lastEvent == Event::ArrowLeft)
 						 {
-							 std::string e = EventsHandler(keys[i]);
-							 if (e == "Left") {
-								 //move left
-							 } else if (e == "Right") {
-								 // move Right
-							 } else if (e == "Down") {
-								 // move Down
-							 }
+							 game.moveLeft();
 						 }
-//						 keys.resize(20);
+						 else if (lastEvent == Event::ArrowRight)
+						 {
+							 game.moveRight();
+						 }
+						 else if (lastEvent == Event::ArrowDown)
+						 {
+							 game.moveDown();
+						 }
 
 						 Elements showMap;
 						 for (size_t i = 0; i < 20; ++i)
 						 {
 							 Elements line;
 							 for (int j = 0; j < 10; ++j)
-								 switch (abs(map[i][j]))
+								 switch (abs(game.getCase(i, j)))
 								 {
 									 case 0:
 										 line.push_back(text("  "));
@@ -92,7 +58,7 @@ int main()
 										 line.push_back(text("  ") | bgcolor(Color::Orange1));
 										 break;
 								 }
-						 	showMap.push_back(hbox(std::move(line)));
+							 showMap.push_back(hbox(std::move(line)));
 						 }
 
 						 auto leftPanel = text("") | size(WIDTH, GREATER_THAN, 15);
@@ -113,8 +79,14 @@ int main()
 
 	component |= CatchEvent([&](Event event)
 							{
-								keys.push_back(event);
-								return true;
+								if (event == Event::Event::ArrowRight ||
+									event == Event::Event::ArrowLeft ||
+									event == Event::Event::ArrowDown)
+								{
+									lastEvent = event;
+									return true;
+								}
+								return false;
 							});
 
 	screen.Loop(component);
