@@ -28,8 +28,6 @@ int main()
 							 game.moveRight();
 						 else if (lastEvent == Event::ArrowDown)
 							 game.moveDown();
-						 else if (lastEvent == Event::Return)
-							 game.lockTetromino();
 						 else if (lastEvent == Event::Character('w'))
 							 game.turnRight();
 						 else if (lastEvent == Event::Character('q'))
@@ -99,7 +97,6 @@ int main()
 								if (event == Event::Event::ArrowRight ||
 									event == Event::Event::ArrowLeft ||
 									event == Event::Event::ArrowDown ||
-									event == Event::Event::Return ||
 									event == Event::Event::Character('q') ||
 									event == Event::Event::Character('w'))
 								{
@@ -114,7 +111,9 @@ int main()
 		while (refresh) {
 			using namespace std::chrono_literals;
 			std::this_thread::sleep_for(0.05s);
-			screen.Post([&] {time++;});
+			screen.Post([&] {
+				time++;
+			});
 			screen.Post(Event::Custom);
 		}
 	});

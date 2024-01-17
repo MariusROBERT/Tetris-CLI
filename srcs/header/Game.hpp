@@ -25,10 +25,13 @@ private:
 	std::tuple<int, int> tetromino_pos[4];
 	char tetromino;
 	char rotation;
+	bool lost;
 
 	void spawnNewPiece();
 	void clearLine(unsigned int line);
 	void checkLines();
+	bool checkLose();
+
 public:
 	Game();
 	[[nodiscard]] char getCase(unsigned int x, unsigned int y) const;

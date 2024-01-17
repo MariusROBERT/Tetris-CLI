@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : map(), tetromino_pos(), tetromino(1)
+Game::Game() : map(), tetromino_pos(), tetromino(1), rotation(0), lost(false)
 {
 	spawnNewPiece();
 }
@@ -16,20 +16,36 @@ char Game::getCase(unsigned int x, unsigned int y) const
 void Game::moveDown()
 {
 	bool can_move = true;
+	static bool final = false;
+
+	if (lost)
+		return;
+
+	if (final)
+	{
+		final = false;
+		lockTetromino();
+	}
 
 	for (int i = 0; i < 4 && can_move; ++i)
 		if (std::get<0>(tetromino_pos[i]) == 19 ||
 			map[std::get<0>(tetromino_pos[i]) + 1][std::get<1>(tetromino_pos[i])])
 			can_move = false;
 
+
 	if (can_move)
 		for (int i = 0; i < 4; ++i)
 			tetromino_pos[i] = {std::get<0>(tetromino_pos[i]) + 1, std::get<1>(tetromino_pos[i])};
+	else
+		final = true;
 }
 
 void Game::moveLeft()
 {
 	bool can_move = true;
+
+	if (lost)
+		return;
 
 	for (int i = 0; i < 4 && can_move; ++i)
 		if (std::get<1>(tetromino_pos[i]) == 0 || map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) - 1])
@@ -43,6 +59,9 @@ void Game::moveLeft()
 void Game::moveRight()
 {
 	bool can_move = true;
+
+	if (lost)
+		return;
 
 	for (int i = 0; i < 4 && can_move; ++i)
 		if (std::get<1>(tetromino_pos[i]) == 9 || map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) + 1])
@@ -65,6 +84,9 @@ void Game::printMap() const
 
 void Game::spawnNewPiece()
 {
+	if (lost)
+		return;
+
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> distrib(1, 7);
@@ -121,10 +143,12 @@ void Game::spawnNewPiece()
 
 void Game::lockTetromino()
 {
-	for (auto & tetromino_piece : tetromino_pos)
+	for (auto &tetromino_piece: tetromino_pos)
 		map[std::get<0>(tetromino_piece)][std::get<1>(tetromino_piece)] = tetromino;
 	checkLines();
 	spawnNewPiece();
+	if (checkLose())
+		lost = true;
 }
 
 void Game::clearLine(unsigned int line)
@@ -153,6 +177,21 @@ void Game::checkLines()
 		if (full)
 			clearLine(i);
 	}
+}
+
+bool Game::checkLose()
+{
+	if (map[0][4])
+		return true;
+	if ((tetromino == I || tetromino == T || tetromino == J || tetromino == L) && (map[0][3] || map[0][5]))
+		return true;
+	if (map[0][3] && tetromino == S)
+		return true;
+	if (map[0][5] && (tetromino == O || tetromino == Z))
+		return true;
+	if (map[0][6] && tetromino == I)
+		return true;
+	return false;
 }
 
 void Game::turnRight()
@@ -434,8 +473,6 @@ void Game::turnLLeft()
 			break;
 	}
 }
-
-
 
 
 //From pos0 to pos1
