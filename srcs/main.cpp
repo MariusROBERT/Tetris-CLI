@@ -1,4 +1,3 @@
-#include <string>  // for to_string, operator+
 #include <utility>  // for move
 #include <vector>   // for vector
 
@@ -23,17 +22,19 @@ int main()
 			Renderer([&]
 					 {
 						 if (lastEvent == Event::ArrowLeft)
-						 {
 							 game.moveLeft();
-						 }
 						 else if (lastEvent == Event::ArrowRight)
-						 {
 							 game.moveRight();
-						 }
 						 else if (lastEvent == Event::ArrowDown)
-						 {
 							 game.moveDown();
-						 }
+						 else if (lastEvent == Event::Return)
+							 game.lockTetromino();
+						 else if (lastEvent == Event::Character('w'))
+							 game.turnRight();
+						 else if (lastEvent == Event::Character('q'))
+							 game.turnLeft();
+
+						 lastEvent = Event::Custom;
 
 						 Elements showMap;
 						 for (size_t i = 0; i < 20; ++i)
@@ -42,19 +43,28 @@ int main()
 							 for (int j = 0; j < 10; ++j)
 								 switch (abs(game.getCase(i, j)))
 								 {
-									 case 0:
+									 case tetrominoes::EMPTY:
 										 line.push_back(text("  "));
 										 break;
-									 case 1:
-										 line.push_back(text("  ") | bgcolor(Color::Blue));
+									 case tetrominoes::I:
+										 line.push_back(text("  ") | bgcolor(Color::CyanLight));
 										 break;
-									 case 2:
+									 case tetrominoes::O:
+										 line.push_back(text("  ") | bgcolor(Color::YellowLight));
+										 break;
+									 case tetrominoes::T:
+										 line.push_back(text("  ") | bgcolor(Color::Magenta));
+										 break;
+									 case tetrominoes::S:
+										 line.push_back(text("  ") | bgcolor(Color::GreenLight));
+										 break;
+									 case tetrominoes::Z:
 										 line.push_back(text("  ") | bgcolor(Color::RedLight));
 										 break;
-									 case 3:
-										 line.push_back(text("  ") | bgcolor(Color::Green));
+									 case tetrominoes::J:
+										 line.push_back(text("  ") | bgcolor(Color::BlueLight));
 										 break;
-									 case 4:
+									 case tetrominoes::L:
 										 line.push_back(text("  ") | bgcolor(Color::Orange1));
 										 break;
 								 }
@@ -77,11 +87,14 @@ int main()
 					 });
 
 
-	component |= CatchEvent([&](Event event)
+	component |= CatchEvent([&](const Event& event)
 							{
 								if (event == Event::Event::ArrowRight ||
 									event == Event::Event::ArrowLeft ||
-									event == Event::Event::ArrowDown)
+									event == Event::Event::ArrowDown ||
+									event == Event::Event::Return ||
+									event == Event::Event::Character('q') ||
+									event == Event::Event::Character('w'))
 								{
 									lastEvent = event;
 									return true;
@@ -91,3 +104,5 @@ int main()
 
 	screen.Loop(component);
 }
+
+/**/
