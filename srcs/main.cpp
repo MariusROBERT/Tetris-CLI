@@ -39,7 +39,7 @@ int main()
 	buttonQuit = Button("Quit", [&]
 	{
 		if (!game.isPlaying())
-			std::exit(EXIT_SUCCESS);
+			screen.Exit();
 	}, ButtonStyle()) | hcenter;
 
 
