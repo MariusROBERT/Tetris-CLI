@@ -80,7 +80,7 @@ int main()
 							 showMap.push_back(hbox(std::move(line)));
 						 }
 
-						 auto leftPanel = vbox() | flex;
+						 auto leftPanel = vbox() | size(WIDTH, EQUAL, 20);
 						 auto gamePanel =
 								 vbox(std::move(showMap)) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
 
@@ -88,17 +88,18 @@ int main()
 
 						 auto rightPanel = vbox({
 														filler()| flex,
-														window(text("Next"),
+														window(text("-Next"),
 															   vbox(std::move(nextDisplay))) | hcenter,
-														filler()| flex
+														filler() | size(WIDTH, EQUAL, 20)
 						 }) | flex;
-						 auto box = window(text("Game") | hcenter, hbox({
-																				leftPanel,
-																				separator(),
-																				gamePanel,
-																				separator(),
-																				rightPanel,
-																		}));
+						 auto box = hbox({window(text("Tetris") | hcenter, hbox({
+																						leftPanel,
+																						separator(),
+																						gamePanel,
+																						separator(),
+																						rightPanel,
+																				})),
+										  filler()}) | size(HEIGHT, EQUAL, 22);
 
 						 return box;
 					 });
