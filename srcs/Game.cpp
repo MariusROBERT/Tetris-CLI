@@ -23,6 +23,11 @@ char Game::getNext() const
 	return next;
 }
 
+char Game::getHold() const
+{
+	return hold;
+}
+
 void Game::moveDown()
 {
 	bool can_move = true;
@@ -87,15 +92,21 @@ void Game::printMap() const
 
 void Game::spawnNewPiece()
 {
-	if (lost)
-		return;
-
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> distrib(1, 7);
 
 	tetromino = next;
 	next = (char) distrib(gen);
+	spawnNewPiece(tetromino);
+}
+
+void Game::spawnNewPiece(char newTetromino)
+{
+	if (lost)
+		return;
+
+	tetromino = newTetromino;
 
 	switch (tetromino)
 	{
@@ -150,6 +161,7 @@ void Game::lockTetromino()
 	for (auto &tetromino_piece: tetromino_pos)
 		map[std::get<0>(tetromino_piece)][std::get<1>(tetromino_piece)] = tetromino;
 	checkLines();
+	holdLock = false;
 	spawnNewPiece();
 	if (checkLose())
 		lost = true;
@@ -200,7 +212,14 @@ bool Game::checkLose()
 
 void Game::swapHold()
 {
+	if (holdLock)
+		return;
 	char tmp = tetromino;
 	tetromino = hold;
 	hold = tmp;
+	if (tetromino == EMPTY)
+		spawnNewPiece();
+	else
+		spawnNewPiece(tetromino);
+	holdLock = true;
 }

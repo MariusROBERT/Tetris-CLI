@@ -31,6 +31,7 @@ private:
 	bool holdLock;
 
 	void spawnNewPiece();
+	void spawnNewPiece(char newTetromino);
 	void clearLine(unsigned int line);
 	void checkLines();
 	bool checkLose();
@@ -42,7 +43,8 @@ public:
 	void moveDown();
 	void moveLeft();
 
-	char getNext() const;
+	[[nodiscard]] char getNext() const;
+	[[nodiscard]] char getHold() const;
 
 	void moveRight();
 
@@ -104,8 +106,6 @@ private:
 	void turnL1();
 	void turnL2();
 	void turnL3();
-
-
 };
 
 

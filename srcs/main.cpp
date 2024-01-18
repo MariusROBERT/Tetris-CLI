@@ -34,8 +34,8 @@ int main()
 							 game.turnRight();
 						 else if (lastEvent == Event::Character('q'))
 							 game.turnLeft();
-//						 else if (lastEvent == Event::Character(' '))
-//							 game.swapHold();
+						 else if (lastEvent == Event::Character('a'))
+							 game.swapHold();
 
 						 if (time > 20)
 						 {
@@ -80,7 +80,14 @@ int main()
 							 showMap.push_back(hbox(std::move(line)));
 						 }
 
-						 auto leftPanel = vbox() | size(WIDTH, EQUAL, 20);
+						 Elements holdDisplay = getDisplay(game.getHold());
+						 auto leftPanel = vbox({
+														 filler()| flex,
+														 window(text("-Hold"),
+																vbox(std::move(holdDisplay))) | hcenter,
+														 filler() | size(WIDTH, EQUAL, 20)
+												 }) | flex;
+						 ;
 						 auto gamePanel =
 								 vbox(std::move(showMap)) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
 
@@ -112,7 +119,7 @@ int main()
 									event == Event::Event::ArrowDown ||
 									event == Event::Event::Character('q') ||
 									event == Event::Event::Character('w') ||
-									event == Event::Event::Character(' '))
+									event == Event::Event::Character('a'))
 								{
 									lastEvent = event;
 									return true;
@@ -216,6 +223,13 @@ Elements getDisplay(char tetromino)
 				line.push_back(bgcolor(Color::Orange1, text("  ")));
 			nextDisplay.push_back(hbox(std::move(line)));
 			break;
+		default:
+			line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
+			line.clear();
+			for (int i = 0; i < 4; ++i)
+				line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
 	}
 	return nextDisplay;
 }
