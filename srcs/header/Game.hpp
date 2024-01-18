@@ -76,6 +76,9 @@ public:
 	Game();
 	[[nodiscard]] char getCase(unsigned int x, unsigned int y) const;
 
+	void start();
+	[[nodiscard]] bool isPlaying() const;
+
 	void moveDown();
 	void moveLeft();
 	void moveRight();

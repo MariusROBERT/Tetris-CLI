@@ -1,14 +1,23 @@
 #include "Game.hpp"
 
 Game::Game() : map(), tetromino_pos(), tetromino_shadow(), tetromino(1), rotation(0),
-				lost(false), hold(EMPTY), holdLock(false), score(0), clock(0)
+				lost(true), hold(EMPTY), holdLock(false), score(0), clock(0), next(0)
+{}
+
+void Game::start()
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> distrib(1, 7);
 	next = (char) distrib(gen);
 
+	lost = false;
 	spawnNewPiece();
+}
+
+bool Game::isPlaying() const
+{
+	return !lost;
 }
 
 char Game::getCase(unsigned int x, unsigned int y) const
