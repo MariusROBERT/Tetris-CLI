@@ -10,6 +10,8 @@
 
 using namespace ftxui;
 
+Elements getDisplay(char tetromino);
+
 int main()
 {
 	auto screen = ScreenInteractive::TerminalOutput();
@@ -32,6 +34,8 @@ int main()
 							 game.turnRight();
 						 else if (lastEvent == Event::Character('q'))
 							 game.turnLeft();
+//						 else if (lastEvent == Event::Character(' '))
+//							 game.swapHold();
 
 						 if (time > 20)
 						 {
@@ -76,10 +80,18 @@ int main()
 							 showMap.push_back(hbox(std::move(line)));
 						 }
 
-						 auto leftPanel = text("") | size(WIDTH, GREATER_THAN, 15);
+						 auto leftPanel = vbox() | flex;
 						 auto gamePanel =
 								 vbox(std::move(showMap)) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
-						 auto rightPanel = text("") | size(WIDTH, GREATER_THAN, 15);
+
+						 Elements nextDisplay = getDisplay(game.getNext());
+
+						 auto rightPanel = vbox({
+														filler()| flex,
+														window(text("Next"),
+															   vbox(std::move(nextDisplay))) | hcenter,
+														filler()| flex
+						 }) | flex;
 						 auto box = window(text("Game") | hcenter, hbox({
 																				leftPanel,
 																				separator(),
@@ -98,7 +110,8 @@ int main()
 									event == Event::Event::ArrowLeft ||
 									event == Event::Event::ArrowDown ||
 									event == Event::Event::Character('q') ||
-									event == Event::Event::Character('w'))
+									event == Event::Event::Character('w') ||
+									event == Event::Event::Character(' '))
 								{
 									lastEvent = event;
 									return true;
@@ -122,4 +135,86 @@ int main()
 	refresh = false;
 	refresh_ui.join();
 	return EXIT_SUCCESS;
+}
+
+Elements getDisplay(char tetromino)
+{
+	Elements nextDisplay;
+
+	Elements line;
+	switch (tetromino)
+	{
+		case I:
+			line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
+			line.clear();
+			for (int i = 0; i < 4; ++i)
+				line.push_back(bgcolor(Color::CyanLight, text("  ")));
+			nextDisplay.push_back(hbox(std::move(line)));
+			break;
+		case O:
+			for (int i = 0; i < 2; ++i)
+			{
+				line.push_back(text("  "));
+				line.push_back(bgcolor(Color::YellowLight, text("  ")));
+				line.push_back(bgcolor(Color::YellowLight, text("  ")));
+				line.push_back(text("  "));
+				nextDisplay.push_back(hbox(std::move(line)));
+				line.clear();
+			}
+			break;
+		case T:
+			line.push_back(text("  "));
+			line.push_back(bgcolor(Color::Magenta, text("  ")));
+			nextDisplay.push_back(hbox(std::move(line)));
+			line.clear();
+			for (int i = 0; i < 3; ++i)
+				line.push_back(bgcolor(Color::Magenta, text("  ")));
+			line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
+			break;
+		case S:
+			line.push_back(text("  "));
+			line.push_back(bgcolor(Color::GreenLight, text("  ")));
+			line.push_back(bgcolor(Color::GreenLight, text("  ")));
+			line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
+			line.clear();
+			line.push_back(bgcolor(Color::GreenLight, text("  ")));
+			line.push_back(bgcolor(Color::GreenLight, text("  ")));
+			nextDisplay.push_back(hbox(std::move(line)));
+			break;
+		case Z:
+			line.push_back(bgcolor(Color::RedLight, text("  ")));
+			line.push_back(bgcolor(Color::RedLight, text("  ")));
+			nextDisplay.push_back(hbox(std::move(line)));
+			line.clear();
+			line.push_back(text("  "));
+			line.push_back(bgcolor(Color::RedLight, text("  ")));
+			line.push_back(bgcolor(Color::RedLight, text("  ")));
+			line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
+			break;
+		case J:
+			line.push_back(bgcolor(Color::BlueLight, text("  ")));
+			nextDisplay.push_back(hbox(std::move(line)));
+			line.clear();
+			for (int i = 0; i < 3; ++i)
+				line.push_back(bgcolor(Color::BlueLight, text("  ")));
+			line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
+			break;
+		case L:
+			line.push_back(text("  "));
+			line.push_back(text("  "));
+			line.push_back(bgcolor(Color::Orange1, text("  ")));
+			line.push_back(text("  "));
+			nextDisplay.push_back(hbox(std::move(line)));
+			line.clear();
+			for (int i = 0; i < 3; ++i)
+				line.push_back(bgcolor(Color::Orange1, text("  ")));
+			nextDisplay.push_back(hbox(std::move(line)));
+			break;
+	}
+	return nextDisplay;
 }

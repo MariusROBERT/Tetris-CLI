@@ -26,6 +26,9 @@ private:
 	char tetromino;
 	char rotation;
 	bool lost;
+	char hold;
+	char next;
+	bool holdLock;
 
 	void spawnNewPiece();
 	void clearLine(unsigned int line);
@@ -38,11 +41,16 @@ public:
 
 	void moveDown();
 	void moveLeft();
+
+	char getNext() const;
+
 	void moveRight();
 
-	void lockTetromino();
 	void turnRight();
 	void turnLeft();
+
+	void swapHold();
+	void lockTetromino();
 
 	void printMap() const;
 

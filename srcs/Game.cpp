@@ -1,7 +1,12 @@
 #include "Game.hpp"
 
-Game::Game() : map(), tetromino_pos(), tetromino(1), rotation(0), lost(false)
+Game::Game() : map(), tetromino_pos(), tetromino(1), rotation(0), lost(false), hold(EMPTY), holdLock(false)
 {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distrib(1, 7);
+	next = (char) distrib(gen);
+
 	spawnNewPiece();
 }
 
@@ -13,19 +18,17 @@ char Game::getCase(unsigned int x, unsigned int y) const
 	return map[x][y];
 }
 
+char Game::getNext() const
+{
+	return next;
+}
+
 void Game::moveDown()
 {
 	bool can_move = true;
-	static bool final = false;
 
 	if (lost)
 		return;
-
-	if (final)
-	{
-		final = false;
-		lockTetromino();
-	}
 
 	for (int i = 0; i < 4 && can_move; ++i)
 		if (std::get<0>(tetromino_pos[i]) == 19 ||
@@ -37,7 +40,7 @@ void Game::moveDown()
 		for (int i = 0; i < 4; ++i)
 			tetromino_pos[i] = {std::get<0>(tetromino_pos[i]) + 1, std::get<1>(tetromino_pos[i])};
 	else
-		final = true;
+		lockTetromino();
 }
 
 void Game::moveLeft()
@@ -91,7 +94,8 @@ void Game::spawnNewPiece()
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> distrib(1, 7);
 
-	tetromino = (char) distrib(gen);
+	tetromino = next;
+	next = (char) distrib(gen);
 
 	switch (tetromino)
 	{
@@ -242,6 +246,13 @@ void Game::turnLeft()
 			turnLLeft();
 			break;
 	}
+}
+
+void Game::swapHold()
+{
+	char tmp = tetromino;
+	tetromino = hold;
+	hold = tmp;
 }
 
 
@@ -927,3 +938,4 @@ void Game::turnL3()
 		tetromino_pos[3] = {std::get<0>(tetromino_pos[2]) + 1, std::get<1>(tetromino_pos[2])};
 	}
 }
+
