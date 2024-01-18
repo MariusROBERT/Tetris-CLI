@@ -33,10 +33,13 @@ DEPS		=	$(patsubst %.cpp, $(DIR_BUILD)%.d, $(SRCS))
 DEPS_FLAGS	=	-MMD -MP
 CC			=	c++
 RM			=	rm -rf
-CFLAGS		=	-std=c++17
+CFLAGS		=	-std=c++17 $(KEYBOARD:%=-D %=1)
 NAME		=	tetris
 
 all:		$(NAME)
+
+run:		all
+			./tetris
 
 $(NAME):	$(FTXUI_MAKE) $(OBJS)
 			@printf "[$(CYAN)Compiling$(END)] % 25s" $(NAME)
@@ -63,8 +66,6 @@ clean:
 
 fclean:		clean
 			@$(RM) $(NAME)
-			@$(RM) ftXUI-5.0.0/build
-			@$(RM) $(FTXUI)
 			@printf "[$(RED)Deleted$(END)] % 27s\n" $(NAME)
 
 re:			fclean
@@ -92,4 +93,4 @@ shrek:
 		@echo "⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ "
 		@echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉$(END)"
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re run

@@ -6,6 +6,29 @@
 #include <random>
 #include "ftxui/component/component_base.hpp"
 
+#ifndef AZERTY
+# define AZERTY 0
+#endif
+
+
+#if AZERTY == 0
+# define ROTATE_LEFT 'q'
+# define ROTATE_RIGHT 'e'
+# define MOVE_LEFT 'a'
+# define MOVE_RIGHT 'd'
+# define MOVE_DOWN 's'
+# define HOLD 'w'
+#endif
+
+#if AZERTY == 1
+# define ROTATE_LEFT 'a'
+# define ROTATE_RIGHT 'e'
+# define MOVE_LEFT 'q'
+# define MOVE_RIGHT 'd'
+# define MOVE_DOWN 's'
+# define HOLD 'z'
+#endif
+
 enum tetrominoes {
 	EMPTY = 0,
 	I = 1,

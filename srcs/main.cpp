@@ -24,17 +24,17 @@ int main()
 	auto component =
 			Renderer([&]
 					 {
-						 if (lastEvent == Event::ArrowLeft)
+						 if (lastEvent == Event::ArrowLeft || lastEvent == Event::Character(MOVE_LEFT))
 							 game.moveLeft();
-						 else if (lastEvent == Event::ArrowRight)
+						 else if (lastEvent == Event::ArrowRight || lastEvent == Event::Character(MOVE_RIGHT))
 							 game.moveRight();
-						 else if (lastEvent == Event::ArrowDown)
+						 else if (lastEvent == Event::ArrowDown || lastEvent == Event::Character(MOVE_DOWN))
 							 game.moveDown();
-						 else if (lastEvent == Event::Character('w'))
+						 else if (lastEvent == Event::Character(ROTATE_RIGHT))
 							 game.turnRight();
-						 else if (lastEvent == Event::Character('q'))
+						 else if (lastEvent == Event::Character(ROTATE_LEFT))
 							 game.turnLeft();
-						 else if (lastEvent == Event::Character('a'))
+						 else if (lastEvent == Event::Character(HOLD))
 							 game.swapHold();
 
 						 if (time > 20)
@@ -117,9 +117,12 @@ int main()
 								if (event == Event::Event::ArrowRight ||
 									event == Event::Event::ArrowLeft ||
 									event == Event::Event::ArrowDown ||
-									event == Event::Event::Character('q') ||
-									event == Event::Event::Character('w') ||
-									event == Event::Event::Character('a'))
+									event == Event::Event::Character(ROTATE_LEFT) ||
+									event == Event::Event::Character(ROTATE_RIGHT) ||
+									event == Event::Event::Character(MOVE_LEFT) ||
+									event == Event::Event::Character(MOVE_RIGHT) ||
+									event == Event::Event::Character(MOVE_DOWN) ||
+									event == Event::Event::Character(HOLD))
 								{
 									lastEvent = event;
 									return true;
