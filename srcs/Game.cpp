@@ -259,6 +259,17 @@ bool Game::checkLose()
 	return false;
 }
 
+void Game::drop()
+{
+	int bonus = std::get<0>(tetromino_shadow[0]) - std::get<0>(tetromino_pos[0]);
+
+	for (int i = 0; i < 4; ++i)
+		tetromino_pos[i] = tetromino_shadow[i];
+	lockTetromino();
+	score += bonus * 2;
+}
+
+
 void Game::swapHold()
 {
 	if (holdLock)

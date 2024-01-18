@@ -19,6 +19,7 @@
 # define MOVE_RIGHT 'd'
 # define MOVE_DOWN 's'
 # define HOLD 'w'
+# define DROP ' '
 #endif
 
 #if AZERTY == 1
@@ -28,6 +29,7 @@
 # define MOVE_RIGHT 'd'
 # define MOVE_DOWN 's'
 # define HOLD 'z'
+# define DROP ' '
 #endif
 
 enum tetrominoes {
@@ -76,15 +78,16 @@ public:
 
 	void moveDown();
 	void moveLeft();
+	void moveRight();
 
 	[[nodiscard]] char getNext() const;
 	[[nodiscard]] char getHold() const;
 	[[nodiscard]] unsigned int getScore() const;
 
-	void moveRight();
-
 	void turnRight();
 	void turnLeft();
+
+	void drop();
 
 	void swapHold();
 	void lockTetromino();

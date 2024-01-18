@@ -28,7 +28,8 @@ Use the `q` and `e` key to rotate the tetromino clockwise and counter-clockwise.
 
 Use the `w` key to swap the current tetromino with the hold one.
 
-You can speed up the tetromino fall by pressing the `arrow down` or `s` key.
+You can speed up the tetromino fall by pressing the `arrow down` or `s` key 
+or even teleport it to its shadow right beneath it by pressing `space`.
 </details>
 
 <details><summary>AZERTY version</summary>
@@ -39,5 +40,6 @@ Use the `a` and `e` key to rotate the tetromino clockwise and counter-clockwise.
 
 Use the `z` key to swap the current tetromino with the hold one.
 
-You can speed up the tetromino fall by pressing the `arrow down` or `s` key.
+You can speed up the tetromino fall by pressing the `arrow down` or `s` key 
+or even teleport it to its shadow right beneath it by pressing `space`.
 </details>

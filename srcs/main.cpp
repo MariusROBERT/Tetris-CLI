@@ -36,6 +36,8 @@ int main()
 							 game.turnLeft();
 						 else if (lastEvent == Event::Character(HOLD))
 							 game.swapHold();
+						 else if (lastEvent == Event::Character(DROP))
+							 game.drop();
 
 						 game.loop();
 
@@ -97,7 +99,8 @@ int main()
 									event == Event::Event::Character(MOVE_LEFT) ||
 									event == Event::Event::Character(MOVE_RIGHT) ||
 									event == Event::Event::Character(MOVE_DOWN) ||
-									event == Event::Event::Character(HOLD))
+									event == Event::Event::Character(HOLD) ||
+									event == Event::Event::Character(DROP))
 								{
 									lastEvent = event;
 									return true;
