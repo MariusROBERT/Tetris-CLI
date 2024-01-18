@@ -286,9 +286,9 @@ void Game::turnLLeft()
 //From pos0 to pos1
 void Game::turnI0Right()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 2][std::get<1>(tetromino_pos[2])] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) + 2 < 0 || !map[std::get<0>(tetromino_pos[2]) + 2][std::get<1>(tetromino_pos[2])]) &&
 		std::get<0>(tetromino_pos[2]) < 18)
 	{
 		rotation = 1;
@@ -302,9 +302,9 @@ void Game::turnI0Right()
 //From pos1 to pos2
 void Game::turnI1Right()
 {
-	if (!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 2] &&
+	if ((std::get<0>(tetromino_pos[2]) < 0 || (!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 2] &&
 		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
+		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1])) &&
 		std::get<1>(tetromino_pos[2]) > 1 &&
 		std::get<1>(tetromino_pos[2]) < 9)
 	{
@@ -318,9 +318,9 @@ void Game::turnI1Right()
 //From pos2 to pos3
 void Game::turnI2Right()
 {
-	if (!map[std::get<0>(tetromino_pos[1]) - 2][std::get<1>(tetromino_pos[1])] &&
-		!map[std::get<0>(tetromino_pos[1]) - 1][std::get<1>(tetromino_pos[1])] &&
-		!map[std::get<0>(tetromino_pos[1]) + 1][std::get<1>(tetromino_pos[1])] &&
+	if ((std::get<0>(tetromino_pos[1]) - 2 < 0 || !map[std::get<0>(tetromino_pos[1]) - 2][std::get<1>(tetromino_pos[1])]) &&
+		(std::get<0>(tetromino_pos[1]) < 1 || !map[std::get<0>(tetromino_pos[1]) - 1][std::get<1>(tetromino_pos[1])]) &&
+		(std::get<0>(tetromino_pos[1]) < -1 || !map[std::get<0>(tetromino_pos[1]) + 1][std::get<1>(tetromino_pos[1])]) &&
 		std::get<0>(tetromino_pos[1]) < 19)
 	{
 		rotation = 3;
@@ -334,9 +334,9 @@ void Game::turnI2Right()
 //From pos3 to pos0
 void Game::turnI3Right()
 {
-	if (!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) - 1] &&
+	if ((std::get<0>(tetromino_pos[1]) < 0 || (!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) - 1] &&
 		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 1] &&
-		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 2] &&
+		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 2])) &&
 		std::get<1>(tetromino_pos[1]) > 0 &&
 		std::get<1>(tetromino_pos[2]) < 8)
 	{
@@ -350,9 +350,9 @@ void Game::turnI3Right()
 //From pos0 to pos3
 void Game::turnI0Left()
 {
-	if (!map[std::get<0>(tetromino_pos[1]) - 1][std::get<1>(tetromino_pos[1])] &&
-		!map[std::get<0>(tetromino_pos[1]) + 1][std::get<1>(tetromino_pos[1])] &&
-		!map[std::get<0>(tetromino_pos[1]) + 2][std::get<1>(tetromino_pos[1])] &&
+	if ((std::get<0>(tetromino_pos[1]) < 1 || !map[std::get<0>(tetromino_pos[1]) - 1][std::get<1>(tetromino_pos[1])]) &&
+		(std::get<0>(tetromino_pos[1]) < -1 || !map[std::get<0>(tetromino_pos[1]) + 1][std::get<1>(tetromino_pos[1])]) &&
+		(std::get<0>(tetromino_pos[1]) + 2 < 0 || !map[std::get<0>(tetromino_pos[1]) + 2][std::get<1>(tetromino_pos[1])]) &&
 		std::get<0>(tetromino_pos[2]) < 18)
 	{
 		rotation = 3;
@@ -365,9 +365,9 @@ void Game::turnI0Left()
 //From pos1 to pos0
 void Game::turnI1Left()
 {
-	if (!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) - 2] &&
+	if ((std::get<0>(tetromino_pos[1]) < 0 || (!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) - 2] &&
 		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) - 1] &&
-		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 1] &&
+		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 1])) &&
 		std::get<1>(tetromino_pos[2]) > 1 &&
 		std::get<1>(tetromino_pos[2]) < 9)
 	{
@@ -382,9 +382,9 @@ void Game::turnI1Left()
 //From pos2 to pos1
 void Game::turnI2Left()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 2][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
+	if ((std::get<0>(tetromino_pos[2]) - 2 < 0 || !map[std::get<0>(tetromino_pos[2]) - 2][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
 		std::get<0>(tetromino_pos[1]) < 19)
 	{
 		rotation = 1;
@@ -397,9 +397,9 @@ void Game::turnI2Left()
 //From pos3 to pos2
 void Game::turnI3Left()
 {
-	if (!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) - 1] &&
+	if ((std::get<0>(tetromino_pos[1]) < 0 || (!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) - 1] &&
 		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 1] &&
-		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 2] &&
+		!map[std::get<0>(tetromino_pos[1])][std::get<1>(tetromino_pos[1]) + 2])) &&
 		std::get<1>(tetromino_pos[1]) > 0 &&
 		std::get<1>(tetromino_pos[2]) < 8)
 	{
@@ -414,9 +414,9 @@ void Game::turnI3Left()
 //Go to pos0
 void Game::turnT0()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) - 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || (!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
+		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1])) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -430,9 +430,9 @@ void Game::turnT0()
 //Go to pos1
 void Game::turnT1()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -446,9 +446,9 @@ void Game::turnT1()
 //Go to pos2
 void Game::turnT2()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || (!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
+		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1])) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
@@ -463,9 +463,9 @@ void Game::turnT2()
 //Go to pos3
 void Game::turnT3()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<0>(tetromino_pos[2]) != 19)
 	{
@@ -479,9 +479,9 @@ void Game::turnT3()
 //Go to pos0
 void Game::turnS0()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -495,9 +495,9 @@ void Game::turnS0()
 //Go to pos1
 void Game::turnS1()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -511,9 +511,9 @@ void Game::turnS1()
 //Go to pos2
 void Game::turnS2()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
@@ -528,9 +528,9 @@ void Game::turnS2()
 //Go to pos3
 void Game::turnS3()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<0>(tetromino_pos[2]) != 19)
 	{
@@ -544,9 +544,9 @@ void Game::turnS3()
 //Go to pos0
 void Game::turnZ0()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -560,9 +560,9 @@ void Game::turnZ0()
 //Go to pos1
 void Game::turnZ1()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -576,9 +576,9 @@ void Game::turnZ1()
 //Go to pos2
 void Game::turnZ2()
 {
-	if (!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
@@ -593,9 +593,9 @@ void Game::turnZ2()
 //Go to pos3
 void Game::turnZ3()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<0>(tetromino_pos[2]) != 19)
 	{
@@ -609,9 +609,9 @@ void Game::turnZ3()
 //Go to pos0
 void Game::turnJ0()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -625,9 +625,9 @@ void Game::turnJ0()
 //Go to pos1
 void Game::turnJ1()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -641,9 +641,9 @@ void Game::turnJ1()
 //Go to pos2
 void Game::turnJ2()
 {
-	if (!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
@@ -658,9 +658,9 @@ void Game::turnJ2()
 //Go to pos3
 void Game::turnJ3()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<0>(tetromino_pos[2]) != 19)
 	{
@@ -674,9 +674,9 @@ void Game::turnJ3()
 //Go to pos0
 void Game::turnL0()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -690,9 +690,9 @@ void Game::turnL0()
 //Go to pos1
 void Game::turnL1()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) != 9)
 	{
@@ -706,9 +706,9 @@ void Game::turnL1()
 //Go to pos2
 void Game::turnL2()
 {
-	if (!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1] &&
+	if ((std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < 0 || !map[std::get<0>(tetromino_pos[2])][std::get<1>(tetromino_pos[2]) + 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2]) - 1]) &&
 		std::get<0>(tetromino_pos[2]) != 19 &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<1>(tetromino_pos[2]) != 9)
@@ -723,9 +723,9 @@ void Game::turnL2()
 //Go to pos3
 void Game::turnL3()
 {
-	if (!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])] &&
-		!map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1] &&
-		!map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])] &&
+	if ((std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2])]) &&
+		(std::get<0>(tetromino_pos[2]) < 1 || !map[std::get<0>(tetromino_pos[2]) - 1][std::get<1>(tetromino_pos[2]) - 1]) &&
+		(std::get<0>(tetromino_pos[2]) < -1 || !map[std::get<0>(tetromino_pos[2]) + 1][std::get<1>(tetromino_pos[2])]) &&
 		std::get<1>(tetromino_pos[2]) &&
 		std::get<0>(tetromino_pos[2]) != 19)
 	{

@@ -1,8 +1,7 @@
 #include "Game.hpp"
 
 Game::Game() : map(), tetromino_pos(), tetromino_shadow(), tetromino(1), rotation(0),
-				lost(true), hold(EMPTY), holdLock(false), score(0), clock(0), next(0)
-{}
+			   lost(true), hold(EMPTY), next(0), holdLock(false), clock(0), score(0) {}
 
 void Game::start()
 {
@@ -20,7 +19,7 @@ bool Game::isPlaying() const
 	return !lost;
 }
 
-char Game::getCase(unsigned int x, unsigned int y) const
+char Game::getCase(int x, int y) const
 {
 	for (int i = 0; i < 4; ++i)
 		if (std::get<0>(tetromino_pos[i]) == x && std::get<1>(tetromino_pos[i]) == y)
@@ -29,7 +28,7 @@ char Game::getCase(unsigned int x, unsigned int y) const
 		return map[x][y];
 	for (int i = 0; i < 4; ++i)
 		if (std::get<0>(tetromino_shadow[i]) == x && std::get<1>(tetromino_shadow[i]) == y)
-			return (char)-tetromino;
+			return (char) -tetromino;
 	return (0);
 }
 
@@ -74,7 +73,8 @@ void Game::moveLeft()
 		return;
 
 	for (int i = 0; i < 4 && can_move; ++i)
-		if (std::get<1>(tetromino_pos[i]) == 0 || map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) - 1])
+		if (std::get<0>(tetromino_pos[i]) >= 0 && (std::get<1>(tetromino_pos[i]) == 0 ||
+			map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) - 1]))
 			can_move = false;
 
 	if (can_move)
@@ -91,7 +91,8 @@ void Game::moveRight()
 		return;
 
 	for (int i = 0; i < 4 && can_move; ++i)
-		if (std::get<1>(tetromino_pos[i]) == 9 || map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) + 1])
+		if (std::get<0>(tetromino_pos[i]) >= 0 && (std::get<1>(tetromino_pos[i]) == 9 ||
+			map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) + 1]))
 			can_move = false;
 
 	if (can_move)
