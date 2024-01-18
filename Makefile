@@ -47,7 +47,7 @@ $(NAME):	$(FTXUI_MAKE) $(OBJS)
 			@printf "$(ERASE)[$(GREEN)Done$(END)] % 30s\n" $(NAME)
 
 $(FTXUI_MAKE):
-			mkdir -p ftXUI-5.0.0/build
+			mkdir -p ftXUI-5.0.0/build srcs/lib
 			cd ftXUI-5.0.0/build && cmake ..
 			cd ftXUI-5.0.0/build && make -j
 			cp ftXUI-5.0.0/build/{libftxui-component.a,libftxui-dom.a,libftxui-screen.a} srcs/lib/

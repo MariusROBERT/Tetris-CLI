@@ -23,6 +23,7 @@ void Game::turnRight()
 			turnLRight();
 			break;
 	}
+	updateShadow();
 }
 
 void Game::turnLeft()
@@ -48,6 +49,7 @@ void Game::turnLeft()
 			turnLLeft();
 			break;
 	}
+	updateShadow();
 }
 
 

@@ -11,12 +11,12 @@
 using namespace ftxui;
 
 Elements getDisplay(char tetromino);
+Element getDisplayCase(char value);
 
 int main()
 {
 	auto screen = ScreenInteractive::TerminalOutput();
 
-	size_t time = 0;
 	Event lastEvent;
 
 	Game game = Game();
@@ -37,46 +37,16 @@ int main()
 						 else if (lastEvent == Event::Character(HOLD))
 							 game.swapHold();
 
-						 if (time > 20)
-						 {
-							 game.moveDown();
-							 time = 0;
-						 }
+						 game.loop();
 
 						 lastEvent = Event::Custom;
 
 						 Elements showMap;
-						 for (size_t i = 0; i < 20; ++i)
+						 for (unsigned int i = 0; i < 20; ++i)
 						 {
 							 Elements line;
-							 for (int j = 0; j < 10; ++j)
-								 switch (abs(game.getCase(i, j)))
-								 {
-									 case tetrominoes::EMPTY:
-										 line.push_back(text("  "));
-										 break;
-									 case tetrominoes::I:
-										 line.push_back(text("  ") | bgcolor(Color::CyanLight));
-										 break;
-									 case tetrominoes::O:
-										 line.push_back(text("  ") | bgcolor(Color::YellowLight));
-										 break;
-									 case tetrominoes::T:
-										 line.push_back(text("  ") | bgcolor(Color::Magenta));
-										 break;
-									 case tetrominoes::S:
-										 line.push_back(text("  ") | bgcolor(Color::GreenLight));
-										 break;
-									 case tetrominoes::Z:
-										 line.push_back(text("  ") | bgcolor(Color::RedLight));
-										 break;
-									 case tetrominoes::J:
-										 line.push_back(text("  ") | bgcolor(Color::BlueLight));
-										 break;
-									 case tetrominoes::L:
-										 line.push_back(text("  ") | bgcolor(Color::Orange1));
-										 break;
-								 }
+							 for (unsigned int j = 0; j < 10; ++j)
+								 line.push_back(getDisplayCase(game.getCase(i, j)));
 							 showMap.push_back(hbox(std::move(line)));
 						 }
 
@@ -94,6 +64,11 @@ int main()
 						 Elements nextDisplay = getDisplay(game.getNext());
 
 						 auto rightPanel = vbox({
+														filler()| flex,
+														window(text("Score"),
+															   vbox(std::move(
+																	   text(std::to_string(game.getScore())))
+																	   )) | size(WIDTH, GREATER_THAN, 9) | hcenter,
 														filler()| flex,
 														window(text("-Next"),
 															   vbox(std::move(nextDisplay))) | hcenter,
@@ -134,10 +109,7 @@ int main()
 	std::thread refresh_ui([&] {
 		while (refresh) {
 			using namespace std::chrono_literals;
-			std::this_thread::sleep_for(0.05s);
-			screen.Post([&] {
-				time++;
-			});
+			std::this_thread::sleep_for(0.025s);
 			screen.Post(Event::Custom);
 		}
 	});
@@ -235,4 +207,43 @@ Elements getDisplay(char tetromino)
 			nextDisplay.push_back(hbox(std::move(line)));
 	}
 	return nextDisplay;
+}
+
+Element getDisplayCase(char value)
+{
+	switch (value)
+	{
+		case tetrominoes::EMPTY:
+			return (text("  "));
+		case tetrominoes::I:
+			return (text("  ") | bgcolor(Color::CyanLight));
+		case tetrominoes::O:
+			return (text("  ") | bgcolor(Color::YellowLight));
+		case tetrominoes::T:
+			return (text("  ") | bgcolor(Color::Magenta));
+		case tetrominoes::S:
+			return (text("  ") | bgcolor(Color::GreenLight));
+		case tetrominoes::Z:
+			return (text("  ") | bgcolor(Color::RedLight));
+		case tetrominoes::J:
+			return (text("  ") | bgcolor(Color::BlueLight));
+		case tetrominoes::L:
+			return (text("  ") | bgcolor(Color::Orange1));
+		case -tetrominoes::I:
+			return (text("::") | color(Color::CyanLight));
+		case -tetrominoes::O:
+			return (text("::") | color(Color::YellowLight));
+		case -tetrominoes::T:
+			return (text("::") | color(Color::Magenta));
+		case -tetrominoes::S:
+			return (text("::") | color(Color::GreenLight));
+		case -tetrominoes::Z:
+			return (text("::") | color(Color::RedLight));
+		case -tetrominoes::J:
+			return (text("::") | color(Color::BlueLight));
+		case -tetrominoes::L:
+			return (text("::") | color(Color::Orange1));
+		default:
+			return (text("  "));
+	}
 }

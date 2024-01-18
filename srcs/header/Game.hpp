@@ -4,6 +4,7 @@
 #include <iostream>
 #include <tuple>
 #include <random>
+#include <string>
 #include "ftxui/component/component_base.hpp"
 
 #ifndef AZERTY
@@ -46,17 +47,27 @@ class Game
 private:
 	char map[20][10];
 	std::tuple<int, int> tetromino_pos[4];
+	std::tuple<int, int> tetromino_shadow[4];
 	char tetromino;
 	char rotation;
+
 	bool lost;
+
 	char hold;
 	char next;
 	bool holdLock;
 
+	size_t clock;
+
+	unsigned int score;
+
 	void spawnNewPiece();
 	void spawnNewPiece(char newTetromino);
-	void clearLine(unsigned int line);
+
+	void updateShadow();
+
 	void checkLines();
+	void clearLine(unsigned int line);
 	bool checkLose();
 
 public:
@@ -68,6 +79,7 @@ public:
 
 	[[nodiscard]] char getNext() const;
 	[[nodiscard]] char getHold() const;
+	[[nodiscard]] unsigned int getScore() const;
 
 	void moveRight();
 
@@ -76,6 +88,8 @@ public:
 
 	void swapHold();
 	void lockTetromino();
+
+	void loop();
 
 	void printMap() const;
 
