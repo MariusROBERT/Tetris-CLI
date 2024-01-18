@@ -33,7 +33,7 @@ DEPS		=	$(patsubst %.cpp, $(DIR_BUILD)%.d, $(SRCS))
 DEPS_FLAGS	=	-MMD -MP
 CC			=	c++
 RM			=	rm -rf
-CFLAGS		=	-std=c++17 $(KEYBOARD:%=-D %=1)
+CFLAGS		=	-std=c++17 $(KEYBOARD:%=-D %=1) -Wall -Wextra -Werror
 NAME		=	tetris
 
 all:		$(NAME)

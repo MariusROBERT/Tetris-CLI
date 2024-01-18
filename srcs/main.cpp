@@ -28,6 +28,8 @@ int main()
 
 	buttonStart = Button("Play", [&]
 	{
+		if (game.isPlaying())
+			return;
 		if (game.getScore() > bestScore)
 			bestScore = game.getScore();
 		game = Game();
@@ -36,8 +38,10 @@ int main()
 
 	buttonQuit = Button("Quit", [&]
 	{
-		std::exit(EXIT_SUCCESS);
+		if (!game.isPlaying())
+			std::exit(EXIT_SUCCESS);
 	}, ButtonStyle()) | hcenter;
+
 
 	buttons = Container::Vertical(
 			{
@@ -85,12 +89,11 @@ int main()
 					leftPanel = vbox({
 											 filler(),
 											 window(text("BestScore"),
-													vbox(std::move(
-															text(std::to_string(bestScore)))
-													) | center) | size(WIDTH, GREATER_THAN, 11) | hcenter,
+													vbox(text(std::to_string(bestScore))
+														 | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter,
 											 filler(),
 											 window(text("-Hold"),
-													vbox(std::move(getDisplay(game.getHold())))) | hcenter,
+													vbox(getDisplay(game.getHold()))) | hcenter,
 											 filler() | size(WIDTH, EQUAL, 20)
 									 });
 
@@ -99,12 +102,11 @@ int main()
 					rightPanel = vbox({
 											  filler(),
 											  window(text("-Score"),
-													 vbox(std::move(
-															 text(std::to_string(game.getScore())))
-													 ) | center) | size(WIDTH, GREATER_THAN, 11) | hcenter,
+													 vbox(text(std::to_string(game.getScore()))
+														  | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter,
 											  filler(),
 											  window(text("-Next"),
-													 vbox(std::move(getDisplay(game.getNext()))) | center) | hcenter,
+													 vbox(getDisplay(game.getNext())) | center) | hcenter,
 											  filler() | size(WIDTH, EQUAL, 20)
 									  });
 
@@ -121,32 +123,11 @@ int main()
 
 					return box;
 				}
-				else if (game.getScore() == 0)
-				{
-					leftPanel = vbox() | flex | size(WIDTH, EQUAL, 20);
-					gamePanel = vbox({filler(),
-									  buttonStart->Render(), filler()}) | size(WIDTH, EQUAL, 20) |
-								size(HEIGHT, EQUAL, 20);
-					rightPanel = vbox() | flex | size(WIDTH, EQUAL, 20);
-
-					box = hbox({window(text("Tetris") | hcenter,
-									   hbox({
-													leftPanel,
-													separator(),
-													gamePanel,
-													separator(),
-													rightPanel,
-											})),
-								filler()}) | size(HEIGHT, EQUAL, 22);
-
-					return box;
-				}
 				else
 				{
 					leftPanel = vbox({window(text("BestScore"),
-											 vbox(std::move(
-													 text(std::to_string(bestScore)))
-											 ) | center) | size(WIDTH, GREATER_THAN, 11) | hcenter
+											 vbox(text(std::to_string(bestScore))
+												  | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter
 									 }) | flex | size(WIDTH, EQUAL, 20);
 
 					if (game.getScore() > bestScore)
@@ -163,13 +144,14 @@ int main()
 					else
 						gamePanel = vbox({filler(),
 										  buttonStart->Render(),
+										  filler(),
+										  buttonQuit->Render(),
 										  filler()
 										 }) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
 
 					rightPanel = vbox({window(text("-Score"),
-											  vbox(std::move(
-													  text(std::to_string(game.getScore())))
-											  ) | center) | size(WIDTH, GREATER_THAN, 11) | hcenter
+											  vbox(text(std::to_string(game.getScore()))
+												   | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter
 									  }) | flex | size(WIDTH, EQUAL, 20);
 
 					box = hbox({window(text("Tetris") | hcenter,
@@ -357,12 +339,12 @@ Element getDisplayCase(char value)
 
 ButtonOption ButtonStyle()
 {
-	auto option = ButtonOption::Animated();
+	auto option = ButtonOption::Simple();
 	option.transform = [](const EntryState &s)
 	{
 		auto element = text(s.label);
 		if (s.focused)
-			element |= bold;
+			element |= inverted;
 		return element | center | border | size(HEIGHT, EQUAL, 5) | size(WIDTH, EQUAL, 14);
 	};
 	return option;
