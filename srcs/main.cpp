@@ -39,7 +39,7 @@ int main()
 	buttonQuit = Button("Quit", [&]
 	{
 		if (!game.isPlaying())
-			std::exit(EXIT_SUCCESS);
+			screen.Exit();
 	}, ButtonStyle()) | hcenter;
 
 
@@ -70,8 +70,8 @@ int main()
 						game.turnLeft();
 					else if (lastEvent == Event::Character(HOLD))
 						game.swapHold();
-					else if (lastEvent == Event::Character(DROP))
-						game.drop();
+//					else if (lastEvent == Event::Character(DROP))
+//						game.drop();
 
 					game.loop();
 
