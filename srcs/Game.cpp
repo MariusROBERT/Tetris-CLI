@@ -189,8 +189,10 @@ void Game::updateShadow()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		for (int j = 0; j < 21; ++j)
+		for (int j = std::get<0>(tetromino_pos[i]); j < 21; ++j)
 		{
+			if (j < 0)
+				continue;
 			if (j == 20 || map[j][std::get<1>(tetromino_pos[i])])
 			{
 				if ((j - std::get<0>(tetromino_pos[i])) < diff)
