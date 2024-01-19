@@ -22,7 +22,7 @@ ERASE		=	\e[2K\r
 DIR_INCS	=	srcs/header
 SRC_DIR		=	srcs
 SRC_FILES	=	main.cpp Game.cpp Rotation.cpp
-LDFLAGS		=	-Lsrcs/lib -lftxui-screen -lftxui-dom -lftxui-component
+LDFLAGS		=	-Lsrcs/lib -lftxui-component -lftxui-dom -lftxui-screen
 FTXUI_MAKE	=	FTXUI-5.0.0/build/Makefile
 
 SRCS		=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
@@ -50,7 +50,9 @@ $(FTXUI_MAKE):
 			mkdir -p FTXUI-5.0.0/build srcs/lib
 			cd FTXUI-5.0.0/build && cmake ..
 			cd FTXUI-5.0.0/build && make -j
-			cp FTXUI-5.0.0/build/{libftxui-component.a,libftxui-dom.a,libftxui-screen.a} srcs/lib/
+			cp FTXUI-5.0.0/build/libftxui-component.a srcs/lib/
+			cp FTXUI-5.0.0/build/libftxui-dom.a srcs/lib/
+			cp FTXUI-5.0.0/build/libftxui-screen.a srcs/lib/
 
 -include $(DEPS)
 
