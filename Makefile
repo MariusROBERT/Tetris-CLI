@@ -73,10 +73,6 @@ fclean:		clean
 re:			fclean
 			@make all
 
-.PHONY: norme
-norme:
-			norminette $(SRCS) $(DIR_INCS) | grep -v 'OK!' | cat
-
 .PHONY: shrek
 shrek:
 		@echo "$(GREEN)⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ "
