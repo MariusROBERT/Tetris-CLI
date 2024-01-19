@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 Game::Game() : map(), tetromino_pos(), tetromino_shadow(), tetromino(1), rotation(0),
-			   lost(true), hold(EMPTY), next(0), holdLock(false), clock(0), score(0) {}
+			   lost(true), hold(EMPTY), next(0), holdLock(false), clock(0), score(0), lines(0) {}
 
 void Game::start()
 {
@@ -45,6 +45,11 @@ char Game::getHold() const
 unsigned int Game::getScore() const
 {
 	return score;
+}
+
+unsigned int Game::getLines() const
+{
+	return lines;
 }
 
 void Game::moveDown()
@@ -238,7 +243,8 @@ void Game::clearLine(unsigned int line)
 
 void Game::checkLines()
 {
-	int cleared = 0;
+	unsigned int old_lines = lines;
+
 	for (unsigned int i = 0; i < 20; ++i)
 	{
 		bool full = true;
@@ -253,11 +259,12 @@ void Game::checkLines()
 		if (full)
 		{
 			clearLine(i);
-			cleared++;
+			lines++;
+			old_lines++;
 		}
 	}
 
-	switch (cleared)
+	switch (lines - old_lines)
 	{
 		case 1:
 			score += 100;

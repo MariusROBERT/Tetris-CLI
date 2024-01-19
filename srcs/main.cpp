@@ -78,10 +78,10 @@ int main()
 					lastEvent = Event::Custom;
 
 					Elements showMap;
-					for (unsigned int i = 0; i < 20; ++i)
+					for (int i = 0; i < 20; ++i)
 					{
 						Elements line;
-						for (unsigned int j = 0; j < 10; ++j)
+						for (int j = 0; j < 10; ++j)
 							line.push_back(getDisplayCase(game.getCase(i, j)));
 						showMap.push_back(hbox(std::move(line)));
 					}
@@ -104,6 +104,10 @@ int main()
 											  window(text("-Score"),
 													 vbox(text(std::to_string(game.getScore()))
 														  | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter,
+											  filler(),
+											  window(text("-Lines"),
+													 vbox(text(std::to_string(game.getLines()))
+														  | center)) | size(WIDTH, GREATER_THAN, 9) | hcenter,
 											  filler(),
 											  window(text("-Next"),
 													 vbox(getDisplay(game.getNext())) | center) | hcenter,
@@ -133,7 +137,7 @@ int main()
 					if (game.getScore() > bestScore)
 						gamePanel = vbox({filler(),
 										  paragraphAlignCenter(
-												  "New best score:" + std::to_string(game.getScore())) |
+												  "New best score: " + std::to_string(game.getScore())) |
 										  borderDashed | size(WIDTH, EQUAL, 16) | hcenter | flex,
 										  filler(),
 										  buttonStart->Render(),

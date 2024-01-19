@@ -62,6 +62,7 @@ private:
 	size_t clock;
 
 	unsigned int score;
+	unsigned int lines;
 
 	void spawnNewPiece();
 	void spawnNewPiece(char newTetromino);
@@ -86,6 +87,7 @@ public:
 	[[nodiscard]] char getNext() const;
 	[[nodiscard]] char getHold() const;
 	[[nodiscard]] unsigned int getScore() const;
+	[[nodiscard]] unsigned int getLines() const;
 
 	void turnRight();
 	void turnLeft();
