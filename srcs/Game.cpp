@@ -68,6 +68,7 @@ void Game::moveDown()
 		lockTetromino();
 
 	score++;
+	clock = 0;
 }
 
 void Game::moveLeft()
@@ -229,7 +230,6 @@ void Game::loop()
 	if (clock == 40)
 	{
 		moveDown();
-		clock = 0;
 	}
 }
 
