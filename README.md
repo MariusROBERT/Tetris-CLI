@@ -18,7 +18,7 @@ If its already installed, compile it with `make` in the downloaded directory.
 If you are on an azerty keyboard, you can compile with `make KEYBOARD=AZERTY` (default is qwerty).
 
 
-### How to play ?
+### How to lost ?
 
 <details><summary>QWERTY version</summary>
 
@@ -30,6 +30,8 @@ Use the `w` key to swap the current tetromino with the hold one.
 
 You can speed up the tetromino fall by pressing the `arrow down` or `s` key 
 or even teleport it to its shadow right beneath it by pressing `space`.
+
+You can pause the game with the `p` key, resume it with the `Play` button or the `p` key again.
 </details>
 
 <details><summary>AZERTY version</summary>
@@ -42,4 +44,6 @@ Use the `z` key to swap the current tetromino with the hold one.
 
 You can speed up the tetromino fall by pressing the `arrow down` or `s` key 
 or even teleport it to its shadow right beneath it by pressing `space`.
+
+You can pause the game with the `p` key, resume it with the `Play` button or the `p` key again.
 </details>

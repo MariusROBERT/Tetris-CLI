@@ -20,6 +20,7 @@
 # define MOVE_DOWN 's'
 # define HOLD 'w'
 # define DROP ' '
+# define PAUSE 'p'
 #endif
 
 #if AZERTY == 1
@@ -30,6 +31,7 @@
 # define MOVE_DOWN 's'
 # define HOLD 'z'
 # define DROP ' '
+# define PAUSE 'p'
 #endif
 
 enum tetrominoes {
@@ -54,6 +56,7 @@ private:
 	char rotation;
 
 	bool lost;
+	bool paused;
 
 	char hold;
 	char next;
@@ -78,7 +81,11 @@ public:
 	[[nodiscard]] char getCase(int x, int y) const;
 
 	void start();
-	[[nodiscard]] bool isPlaying() const;
+	[[nodiscard]] bool isLost() const;
+	[[nodiscard]] bool isPaused() const;
+
+	void pause();
+	void unPause();
 
 	void moveDown();
 	void moveLeft();

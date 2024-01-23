@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 Game::Game() : map(), tetromino_pos(), tetromino_shadow(), tetromino(1), rotation(0),
-			   lost(true), hold(EMPTY), next(0), holdLock(false), clock(0), score(0), lines(0) {}
+			   lost(true), paused(false), hold(EMPTY), next(0), holdLock(false), clock(0), score(0), lines(0) {}
 
 void Game::start()
 {
@@ -14,9 +14,24 @@ void Game::start()
 	spawnNewPiece();
 }
 
-bool Game::isPlaying() const
+bool Game::isLost() const
 {
-	return !lost;
+	return lost;
+}
+
+bool Game::isPaused() const
+{
+	return paused;
+}
+
+void Game::pause()
+{
+	paused = true;
+}
+
+void Game::unPause()
+{
+	paused = false;
 }
 
 char Game::getCase(int x, int y) const

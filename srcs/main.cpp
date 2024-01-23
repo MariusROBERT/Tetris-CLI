@@ -28,7 +28,9 @@ int main()
 
 	buttonStart = Button("Play", [&]
 	{
-		if (game.isPlaying())
+		if (game.isPaused())
+			return game.unPause();
+		if (!game.isLost())
 			return;
 		if (game.getScore() > bestScore)
 			bestScore = game.getScore();
@@ -38,10 +40,9 @@ int main()
 
 	buttonQuit = Button("Quit", [&]
 	{
-		if (!game.isPlaying())
+		if (game.isLost())
 			screen.Exit();
 	}, ButtonStyle()) | hcenter;
-
 
 	buttons = Container::Vertical(
 			{
@@ -53,144 +54,127 @@ int main()
 	Element leftPanel, rightPanel, gamePanel, box;
 
 
-	component = Renderer(
-			buttons, [&]
+	component = Renderer(buttons, [&]
+	{
+		if (game.isLost() || game.isPaused())
+		{
+			leftPanel = vbox({window(text("BestScore"),
+									 vbox(text(std::to_string(bestScore))
+										  | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter
+							 }) | flex | size(WIDTH, EQUAL, 20);
+
+			if (game.getScore() <= bestScore || game.isPaused())
+				gamePanel = vbox({filler(),
+								  buttonStart->Render(),
+								  filler(),
+								  buttonQuit->Render(),
+								  filler()
+								 }) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
+			else
+				gamePanel = vbox({filler(),
+								  paragraphAlignCenter(
+										  "New best score: " + std::to_string(game.getScore())) |
+								  borderDashed | size(WIDTH, EQUAL, 16) | hcenter | flex,
+								  filler(),
+								  buttonStart->Render(),
+								  filler(),
+								  buttonQuit->Render(),
+								  filler()
+								 }) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
+
+			rightPanel = vbox({window(text("-Score"),
+									  vbox(text(std::to_string(game.getScore()))
+										   | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter
+							  }) | flex | size(WIDTH, EQUAL, 20);
+		}
+		else
+		{
+			game.loop();
+
+			leftPanel = vbox({
+									 filler(),
+									 window(text("BestScore"),
+											vbox(text(std::to_string(bestScore))
+												 | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter,
+									 filler(),
+									 window(text("-Hold"),
+											vbox(getDisplay(game.getHold()))) | hcenter,
+									 filler() | size(WIDTH, EQUAL, 20)
+							 });
+
+			Elements showMap;
+			for (int i = 0; i < 20; ++i)
 			{
-				if (game.isPlaying())
-				{
-					if (lastEvent == Event::ArrowLeft || lastEvent == Event::Character(MOVE_LEFT))
-						game.moveLeft();
-					else if (lastEvent == Event::ArrowRight || lastEvent == Event::Character(MOVE_RIGHT))
-						game.moveRight();
-					else if (lastEvent == Event::ArrowDown || lastEvent == Event::Character(MOVE_DOWN))
-						game.moveDown();
-					else if (lastEvent == Event::Character(ROTATE_RIGHT))
-						game.turnRight();
-					else if (lastEvent == Event::Character(ROTATE_LEFT))
-						game.turnLeft();
-					else if (lastEvent == Event::Character(HOLD))
-						game.swapHold();
-					else if (lastEvent == Event::Character(DROP))
-						game.drop();
-
-					game.loop();
-
-					lastEvent = Event::Custom;
-
-					Elements showMap;
-					for (int i = 0; i < 20; ++i)
-					{
-						Elements line;
-						for (int j = 0; j < 10; ++j)
-							line.push_back(getDisplayCase(game.getCase(i, j)));
-						showMap.push_back(hbox(std::move(line)));
-					}
-
-					leftPanel = vbox({
-											 filler(),
-											 window(text("BestScore"),
-													vbox(text(std::to_string(bestScore))
-														 | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter,
-											 filler(),
-											 window(text("-Hold"),
-													vbox(getDisplay(game.getHold()))) | hcenter,
-											 filler() | size(WIDTH, EQUAL, 20)
-									 });
-
-					gamePanel = vbox(std::move(showMap)) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
-
-					rightPanel = vbox({
-											  filler(),
-											  window(text("-Score"),
-													 vbox(text(std::to_string(game.getScore()))
-														  | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter,
-											  filler(),
-											  window(text("-Lines"),
-													 vbox(text(std::to_string(game.getLines()))
-														  | center)) | size(WIDTH, GREATER_THAN, 9) | hcenter,
-											  filler(),
-											  window(text("-Next"),
-													 vbox(getDisplay(game.getNext())) | center) | hcenter,
-											  filler() | size(WIDTH, EQUAL, 20)
-									  });
-
-
-					box = hbox({window(text("Tetris") | hcenter,
-									   hbox({
-													leftPanel,
-													separator(),
-													gamePanel,
-													separator(),
-													rightPanel,
-											})),
-								filler()}) | size(HEIGHT, EQUAL, 22);
-
-					return box;
-				}
-				else
-				{
-					leftPanel = vbox({window(text("BestScore"),
-											 vbox(text(std::to_string(bestScore))
-												  | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter
-									 }) | flex | size(WIDTH, EQUAL, 20);
-
-					if (game.getScore() > bestScore)
-						gamePanel = vbox({filler(),
-										  paragraphAlignCenter(
-												  "New best score: " + std::to_string(game.getScore())) |
-										  borderDashed | size(WIDTH, EQUAL, 16) | hcenter | flex,
-										  filler(),
-										  buttonStart->Render(),
-										  filler(),
-										  buttonQuit->Render(),
-										  filler()
-										 }) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
-					else
-						gamePanel = vbox({filler(),
-										  buttonStart->Render(),
-										  filler(),
-										  buttonQuit->Render(),
-										  filler()
-										 }) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
-
-					rightPanel = vbox({window(text("-Score"),
-											  vbox(text(std::to_string(game.getScore()))
-												   | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter
-									  }) | flex | size(WIDTH, EQUAL, 20);
-
-					box = hbox({window(text("Tetris") | hcenter,
-									   hbox({
-													leftPanel,
-													separator(),
-													gamePanel,
-													separator(),
-													rightPanel,
-											})),
-								filler()}) | size(HEIGHT, EQUAL, 22);
-
-					return box;
-				}
+				Elements line;
+				for (int j = 0; j < 10; ++j)
+					line.push_back(getDisplayCase(game.getCase(i, j)));
+				showMap.push_back(hbox(std::move(line)));
 			}
-	);
+
+			gamePanel = vbox(std::move(showMap)) | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 20);
+
+			rightPanel = vbox({
+									  filler(),
+									  window(text("-Score"),
+											 vbox(text(std::to_string(game.getScore()))
+												  | center)) | size(WIDTH, GREATER_THAN, 11) | hcenter,
+									  filler(),
+									  window(text("-Lines"),
+											 vbox(text(std::to_string(game.getLines()))
+												  | center)) | size(WIDTH, GREATER_THAN, 9) | hcenter,
+									  filler(),
+									  window(text("-Next"),
+											 vbox(getDisplay(game.getNext())) | center) | hcenter,
+									  filler() | size(WIDTH, EQUAL, 20)
+							  });
+		}
+
+		box = hbox({window(text("Tetris") | hcenter,
+						   hbox({
+										leftPanel,
+										separator(),
+										gamePanel,
+										separator(),
+										rightPanel,
+								})),
+					filler()}) | size(HEIGHT, EQUAL, 22);
+
+		return box;
+	});
 
 	component |= CatchEvent(
 			[&](const Event &event)
 			{
-				if (game.isPlaying())
-					if (event == Event::Event::ArrowRight ||
-						event == Event::Event::ArrowLeft ||
-						event == Event::Event::ArrowDown ||
-						event == Event::Event::Character(ROTATE_LEFT) ||
-						event == Event::Event::Character(ROTATE_RIGHT) ||
-						event == Event::Event::Character(MOVE_LEFT) ||
-						event == Event::Event::Character(MOVE_RIGHT) ||
-						event == Event::Event::Character(MOVE_DOWN) ||
-						event == Event::Event::Character(HOLD) ||
-						event == Event::Event::Character(DROP))
-					{
-						lastEvent = event;
-						return true;
-					}
+				if (game.isPaused())
+				{
+					if (event == Event::Character(PAUSE))
+						game.unPause();
+					else
+						return false;
+					return true;
+				}
+				else if (!game.isLost())
+				{
+					if (event == Event::ArrowLeft || event == Event::Character(MOVE_LEFT))
+						game.moveLeft();
+					else if (event == Event::ArrowRight || event == Event::Character(MOVE_RIGHT))
+						game.moveRight();
+					else if (event == Event::ArrowDown || event == Event::Character(MOVE_DOWN))
+						game.moveDown();
+					else if (event == Event::Character(ROTATE_RIGHT))
+						game.turnRight();
+					else if (event == Event::Character(ROTATE_LEFT))
+						game.turnLeft();
+					else if (event == Event::Character(HOLD))
+						game.swapHold();
+					else if (event == Event::Character(DROP))
+						game.drop();
+					if (event == Event::Character(PAUSE))
+						game.pause();
+					else
+						return false;
+					return true;
+				}
 
 				return false;
 			});
