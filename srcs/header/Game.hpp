@@ -52,8 +52,12 @@ private:
 	char map[20][10];
 	std::tuple<int, int> tetromino_pos[4];
 	std::tuple<int, int> tetromino_shadow[4];
+	std::vector<char> bag;
+	char bag_iter;
 	char tetromino;
 	char rotation;
+
+	std::mt19937 rand_gen;
 
 	bool lost;
 	bool paused;
@@ -67,6 +71,7 @@ private:
 	unsigned int score;
 	unsigned int lines;
 
+	char getNewPiece();
 	void spawnNewPiece();
 	void spawnNewPiece(char newTetromino);
 

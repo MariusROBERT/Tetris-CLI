@@ -1,16 +1,17 @@
 #include "Game.hpp"
 
-Game::Game() : map(), tetromino_pos(), tetromino_shadow(), tetromino(1), rotation(0),
-			   lost(true), paused(false), hold(EMPTY), next(0), holdLock(false), clock(0), score(0), lines(0) {}
+Game::Game()
+		: map(), tetromino_pos(), tetromino_shadow(), bag({1, 2, 3, 4, 5, 6, 7}), bag_iter(7), tetromino(1),
+		  rotation(0), lost(true), paused(false), hold(EMPTY), next(0), holdLock(false), clock(0), score(0), lines(0)
+{
+	std::random_device rd;
+	rand_gen = std::mt19937(rd());
+}
 
 void Game::start()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distrib(1, 7);
-	next = (char) distrib(gen);
-
 	lost = false;
+	next = getNewPiece();
 	spawnNewPiece();
 }
 
@@ -95,7 +96,8 @@ void Game::moveLeft()
 
 	for (int i = 0; i < 4 && can_move; ++i)
 		if (std::get<0>(tetromino_pos[i]) >= 0 && (std::get<1>(tetromino_pos[i]) == 0 ||
-			map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) - 1]))
+												   map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) -
+																					  1]))
 			can_move = false;
 
 	if (can_move)
@@ -113,7 +115,8 @@ void Game::moveRight()
 
 	for (int i = 0; i < 4 && can_move; ++i)
 		if (std::get<0>(tetromino_pos[i]) >= 0 && (std::get<1>(tetromino_pos[i]) == 9 ||
-			map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) + 1]))
+												   map[std::get<0>(tetromino_pos[i])][std::get<1>(tetromino_pos[i]) +
+																					  1]))
 			can_move = false;
 
 	if (can_move)
@@ -132,14 +135,20 @@ void Game::printMap() const
 	}
 }
 
+char Game::getNewPiece()
+{
+	if (bag_iter == 7)
+	{
+		std::shuffle(bag.begin(), bag.end(), rand_gen);
+		bag_iter = 0;
+	}
+	return bag[bag_iter++];
+}
+
 void Game::spawnNewPiece()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distrib(1, 7);
-
 	tetromino = next;
-	next = (char) distrib(gen);
+	next = getNewPiece();
 	spawnNewPiece(tetromino);
 }
 
