@@ -18,7 +18,7 @@ If its already installed, compile it with `make` in the downloaded directory.
 If you are on an azerty keyboard, you can compile with `make KEYBOARD=AZERTY` (default is qwerty).
 
 
-### How to lost ?
+### How to play ?
 
 <details><summary>QWERTY version</summary>
 
