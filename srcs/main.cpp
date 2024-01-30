@@ -186,7 +186,7 @@ int main()
 				while (refresh)
 				{
 					using namespace std::chrono_literals;
-					std::this_thread::sleep_for(0.025s);
+					std::this_thread::sleep_for(0.01666s); //60fps
 					screen.Post(Event::Custom);
 				}
 			});

@@ -71,6 +71,8 @@ private:
 	unsigned int score;
 	unsigned int lines;
 
+	unsigned int level;
+
 	char getNewPiece();
 	void spawnNewPiece();
 	void spawnNewPiece(char newTetromino);
