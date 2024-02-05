@@ -3,7 +3,7 @@
 Game::Game()
 		: map(), tetromino_pos(), tetromino_shadow(), bag({1, 2, 3, 4, 5, 6, 7}), bag_iter(7), tetromino(1),
 		  rotation(0), lost(true), paused(false), hold(EMPTY), next(0), holdLock(false), clock(0), score(0), lines(0),
-		  level(0)
+		  levelLines(0), level(0)
 {
 	std::random_device rd;
 	rand_gen = std::mt19937(rd());
@@ -67,6 +67,11 @@ unsigned int Game::getScore() const
 unsigned int Game::getLines() const
 {
 	return lines;
+}
+
+unsigned int Game::getLevel() const
+{
+	return level;
 }
 
 void Game::moveDown()
@@ -353,6 +358,7 @@ void Game::checkLines()
 			clearLine(i);
 			lines++;
 			old_lines++;
+			levelLines++;
 		}
 	}
 
@@ -372,64 +378,11 @@ void Game::checkLines()
 			break;
 	}
 
-	if (lines >= 3050)
-		level = 29;
-	else if (lines >= 2850)
-		level = 28;
-	else if (lines >= 2650)
-		level = 27;
-	else if (lines >= 2450)
-		level = 26;
-	else if (lines >= 2250)
-		level = 25;
-	else if (lines >= 2060)
-		level = 24;
-	else if (lines >= 1880)
-		level = 23;
-	else if (lines >= 1710)
-		level = 22;
-	else if (lines >= 1650)
-		level = 21;
-	else if (lines >= 1650)
-		level = 20;
-	else if (lines >= 1510)
-		level = 19;
-	else if (lines >= 1380)
-		level = 18;
-	else if (lines >= 1260)
-		level = 17;
-	else if (lines >= 1150)
-		level = 16;
-	else if (lines >= 1050)
-		level = 15;
-	else if (lines >= 950)
-		level = 14;
-	else if (lines >= 850)
-		level = 13;
-	else if (lines >= 750)
-		level = 12;
-	else if (lines >= 650)
-		level = 11;
-	else if (lines >= 550)
-		level = 10;
-	else if (lines >= 450)
-		level = 9;
-	else if (lines >= 360)
-		level = 8;
-	else if (lines >= 280)
-		level = 7;
-	else if (lines >= 210)
-		level = 6;
-	else if (lines >= 150)
-		level = 5;
-	else if (lines >= 100)
-		level = 4;
-	else if (lines >= 60)
-		level = 3;
-	else if (lines >= 30)
-		level = 2;
-	else if (lines >= 10)
-		level = 1;
+	if (levelLines >= std::min(level * 10 + 10, std::max((unsigned int)100, level * 10 - 50)))
+	{
+		level++;
+		levelLines %= std::min(level * 10 + 10, std::max((unsigned int)100, level * 10 - 50));
+	}
 }
 
 bool Game::checkLose()

@@ -70,6 +70,7 @@ private:
 
 	unsigned int score;
 	unsigned int lines;
+	unsigned int levelLines;
 
 	unsigned int level;
 
@@ -102,6 +103,7 @@ public:
 	[[nodiscard]] char getHold() const;
 	[[nodiscard]] unsigned int getScore() const;
 	[[nodiscard]] unsigned int getLines() const;
+	[[nodiscard]] unsigned int getLevel() const;
 
 	void turnRight();
 	void turnLeft();

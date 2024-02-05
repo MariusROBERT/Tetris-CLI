@@ -123,6 +123,10 @@ int main()
 											 vbox(text(std::to_string(game.getLines()))
 												  | center)) | size(WIDTH, GREATER_THAN, 9) | hcenter,
 									  filler(),
+									  window(text("-Level"),
+											 vbox(text(std::to_string(game.getLevel()))
+												  | center)) | size(WIDTH, GREATER_THAN, 9) | hcenter,
+									  filler(),
 									  window(text("-Next"),
 											 vbox(getDisplay(game.getNext())) | center) | hcenter,
 									  filler() | size(WIDTH, EQUAL, 20)
